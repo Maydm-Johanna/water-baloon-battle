@@ -287,7 +287,7 @@ e e f 6 6 6 6 6 6 f e e .
 . . . f 6 6 6 f e e f . . . 
 . . . . f f f f f f . . . . 
 . . . . . . f f f . . . . . 
-`</field><data>{"commentRefs":[],"fieldData":{"img":"^wB+z-rJ#vM@:FZmQ+Ob"}}</data></shadow></value><next><block type="variables_set" id="*xhK?p:Us!@vL$I$n#7l"><field name="VAR" id="C6mD^vTmHsFi1yE6AVXz">p3 vx</field><value name="VALUE"><shadow type="math_number" id="l0#!W88z3ko;*x;Yc]]1"><field name="NUM">-50</field></shadow></value><next><block type="variables_set" id="3a9b{KjwXK0C#YQC(/ZV"><field name="VAR" id="ov?P@_DM{3-/e^T.g[-U">p3 vy</field><value name="VALUE"><shadow type="math_number" id="Aq)M2Q7?)aI)Q!:!)E}L"><field name="NUM">0</field></shadow></value></block></next></block></next></block></statement></block><block type="ctrlonbuttonevent" id="{ky90K9aAqNQSUNHobAg" x="1680" y="300"><field name="controller">controller.player3</field><field name="button">ControllerButton.Right</field><field name="event">ControllerButtonEvent.Pressed</field><statement name="HANDLER"><block type="spritesetimage" id="qD$vUIu2)c.dE]|PZES{"><value name="sprite"><block type="variables_get" id="8ggZ3.vaP98vpo*`cRD/"><field name="VAR" id="1I$MH2Y]7sXuO$wuobi]">player 3</field></block></value><value name="img"><shadow type="screen_image_picker" id="AWKZ1FD#~.8uRc8$9U[J"><field name="img">img`
+`</field><data>{"commentRefs":[],"fieldData":{"img":"^wB+z-rJ#vM@:FZmQ+Ob"}}</data></shadow></value><next><block type="variables_set" id="*xhK?p:Us!@vL$I$n#7l"><field name="VAR" id="C6mD^vTmHsFi1yE6AVXz">p3 vx</field><value name="VALUE"><shadow type="math_number" id="l0#!W88z3ko;*x;Yc]]1"><field name="NUM">-50</field></shadow></value><next><block type="variables_set" id="3a9b{KjwXK0C#YQC(/ZV"><field name="VAR" id="ov?P@_DM{3-/e^T.g[-U">p3 vy</field><value name="VALUE"><shadow type="math_number" id="Aq)M2Q7?)aI)Q!:!)E}L"><field name="NUM">0</field></shadow></value></block></next></block></next></block></statement></block><block type="ctrlonbuttonevent" id="{ky90K9aAqNQSUNHobAg" x="1690" y="310"><field name="controller">controller.player3</field><field name="button">ControllerButton.Right</field><field name="event">ControllerButtonEvent.Pressed</field><statement name="HANDLER"><block type="spritesetimage" id="qD$vUIu2)c.dE]|PZES{"><value name="sprite"><block type="variables_get" id="8ggZ3.vaP98vpo*`cRD/"><field name="VAR" id="1I$MH2Y]7sXuO$wuobi]">player 3</field></block></value><value name="img"><shadow type="screen_image_picker" id="AWKZ1FD#~.8uRc8$9U[J"><field name="img">img`
 . f f f . f f f f f . . . . 
 f f f f f c c c c f f . . . 
 f f f f b c c c c c c f . . 
@@ -377,13 +377,13 @@ f f e e f b f e e f f . .
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-. . . . . 5 5 5 5 5 . . . . . . 
-. . . . 5 5 5 5 5 5 5 . . . . . 
-. . . . 5 5 5 5 5 5 5 . . . . . 
-. . . . 5 5 5 5 5 5 5 . . . . . 
-. . . . 5 5 5 5 5 5 5 . . . . . 
-. . . . 5 5 5 5 5 5 5 . . . . . 
-. . . . . 5 5 5 5 5 . . . . . . 
+. . . . . 4 4 4 4 4 . . . . . . 
+. . . . 4 4 4 4 4 4 4 . . . . . 
+. . . . 4 4 4 4 4 4 4 . . . . . 
+. . . . 4 4 4 4 4 4 4 . . . . . 
+. . . . 4 4 4 4 4 4 4 . . . . . 
+. . . . 4 4 4 4 4 4 4 . . . . . 
+. . . . . 4 4 4 4 4 . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -394,13 +394,13 @@ f f e e f b f e e f f . .
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-. . . . . a a a a a . . . . . . 
-. . . . a a a a a a a . . . . . 
-. . . . a a a a a a a . . . . . 
-. . . . a a a a a a a . . . . . 
-. . . . a a a a a a a . . . . . 
-. . . . a a a a a a a . . . . . 
-. . . . . a a a a a . . . . . . 
+. . . . . 7 7 7 7 7 . . . . . . 
+. . . . 7 7 7 7 7 7 7 . . . . . 
+. . . . 7 7 7 7 7 7 7 . . . . . 
+. . . . 7 7 7 7 7 7 7 . . . . . 
+. . . . 7 7 7 7 7 7 7 . . . . . 
+. . . . 7 7 7 7 7 7 7 . . . . . 
+. . . . . 7 7 7 7 7 . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
