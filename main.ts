@@ -1,7 +1,16 @@
 namespace SpriteKind {
-    export const Player2 = SpriteKind.create()
-    export const Player3 = SpriteKind.create()
-    export const Player4 = SpriteKind.create()
+    export const Projectile1 = SpriteKind.create()
+    export const Projectile2 = SpriteKind.create()
+    export const Projectile3 = SpriteKind.create()
+    export const Projectile4 = SpriteKind.create()
+}
+sprites.onOverlap(SpriteKind.Projectile2, SpriteKind.Projectile3, function (sprite, otherSprite) {
+    popBalloon(sprite)
+    popBalloon(otherSprite)
+})
+function createProjectile (vx: number, vy: number, balloonImage: Image, playerSpriteName: Sprite) {
+    projectile = sprites.createProjectileFromSprite(balloonImage, playerSpriteName, vx, vy)
+    projectile.setFlag(SpriteFlag.AutoDestroy, true)
 }
 controller.player4.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
     player_4.setImage(img`
@@ -24,6 +33,18 @@ controller.player4.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pres
         `)
     p4_vx = 0
     p4_vy = -50
+})
+sprites.onOverlap(SpriteKind.Projectile2, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite == player1) {
+        info.player1.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player_3) {
+        info.player3.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player_4) {
+        info.player4.changeLifeBy(-1)
+        popBalloon(sprite)
+    }
 })
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     player1.setImage(img`
@@ -49,31 +70,31 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.player3.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function () {
     if (info.player3.score() > 0 && !(player_3.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p3 = sprites.createProjectileFromSprite(img`
+        createProjectile(0, 0, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . 5 5 5 5 5 . . . . . . 
-            . . . . 5 5 5 5 5 5 5 . . . . . 
-            . . . . 5 5 5 5 5 5 5 . . . . . 
-            . . . . 5 5 5 5 5 5 5 . . . . . 
-            . . . . 5 5 5 5 5 5 5 . . . . . 
-            . . . . 5 5 5 5 5 5 5 . . . . . 
-            . . . . . 5 5 5 5 5 . . . . . . 
+            . . . . . 4 4 4 4 4 . . . . . . 
+            . . . . 4 4 4 4 4 4 4 . . . . . 
+            . . . . 4 4 4 4 4 4 4 . . . . . 
+            . . . . 4 4 4 4 4 4 4 . . . . . 
+            . . . . 4 4 4 4 4 4 4 . . . . . 
+            . . . . 4 4 4 4 4 4 4 . . . . . 
+            . . . . . 4 4 4 4 4 . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player_3, 0, 0)
-        projectile_p3.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player_3)
+        projectile.setKind(SpriteKind.Projectile3)
         info.player3.changeScoreBy(-1)
     }
 })
 controller.player2.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function () {
     if (info.player2.score() > 0 && !(player2.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p2 = sprites.createProjectileFromSprite(img`
+        createProjectile(0, 0, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -90,39 +111,38 @@ controller.player2.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Press
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player2, 0, 0)
-        projectile_p2.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player2)
         info.player2.changeScoreBy(-1)
-        projectile_p2.lifespan = 5000
+        projectile.setKind(SpriteKind.Projectile2)
     }
 })
 controller.player4.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function () {
     if (info.player4.score() > 0 && !(player_4.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p4 = sprites.createProjectileFromSprite(img`
+        createProjectile(0, 0, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . a a a a a . . . . . . 
-            . . . . a a a a a a a . . . . . 
-            . . . . a a a a a a a . . . . . 
-            . . . . a a a a a a a . . . . . 
-            . . . . a a a a a a a . . . . . 
-            . . . . a a a a a a a . . . . . 
-            . . . . . a a a a a . . . . . . 
+            . . . . . 6 6 6 6 6 . . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . . 6 6 6 6 6 . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player_4, 0, 0)
-        projectile_p4.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player_4)
+        projectile.setKind(SpriteKind.Projectile4)
         info.player4.changeScoreBy(-1)
     }
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (info.score() > 0 && !(player1.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p1 = sprites.createProjectileFromSprite(img`
+        createProjectile(0, 0, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -139,39 +159,36 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player1, 0, 0)
-        projectile_p1.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player1)
         info.changeScoreBy(-1)
+        projectile.setKind(SpriteKind.Projectile1)
     }
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player2, function (sprite, otherSprite) {
-    if (sprite != projectile_p2) {
-        info.player2.changeLifeBy(-1)
-        sprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . 6 . . . . . . . . . . . . 
-            . . . 6 9 . . . 6 . . 9 9 9 . . 
-            . . 6 6 9 9 . 9 . . 9 9 9 9 6 . 
-            . . 6 6 9 9 . . . 9 9 9 9 6 6 . 
-            . . . 6 6 9 . . . 9 9 6 6 6 . . 
-            . . . . 6 9 . . . . . . . . . . 
-            . . 9 . 6 . . . . . . . . . . . 
-            . . . . . . . . 6 9 9 9 . . . . 
-            . . . 9 9 . . . . 9 9 9 9 9 . . 
-            . 9 9 9 9 . . . . . . 9 9 9 9 . 
-            9 9 6 6 6 . 9 9 . 6 . . 6 6 6 . 
-            9 6 6 . . . 9 9 . . 9 . . . . . 
-            . 6 . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            `)
-        sprite.setVelocity(0, 0)
-        sprites.destroy(sprite, effects.spray, 200)
-    }
-})
+function popBalloon (whichBalloon: Sprite) {
+    whichBalloon.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . 6 . . . . . . . . . . . . 
+        . . . 6 9 . . . 6 . . 9 9 9 . . 
+        . . 6 6 9 9 . 9 . . 9 9 9 9 6 . 
+        . . 6 6 9 9 . . . 9 9 9 9 6 6 . 
+        . . . 6 6 9 . . . 9 9 6 6 6 . . 
+        . . . . 6 9 . . . . . . . . . . 
+        . . 9 . 6 . . . . . . . . . . . 
+        . . . . . . . . 6 9 9 9 . . . . 
+        . . . 9 9 . . . . 9 9 9 9 9 . . 
+        . 9 9 9 9 . . . . . . 9 9 9 9 . 
+        9 9 6 6 6 . 9 9 . 6 . . 6 6 6 . 
+        9 6 6 . . . 9 9 . . 9 . . . . . 
+        . 6 . . . . 9 6 . . . . . . . . 
+        . . . . . . 9 6 . . . . . . . . 
+        . . . . . . 9 6 . . . . . . . . 
+        `)
+    sprites.destroy(whichBalloon, effects.spray, 100)
+    whichBalloon.setVelocity(0, 0)
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (info.score() > 0 && !(player1.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p1 = sprites.createProjectileFromSprite(img`
+        createProjectile(p1_vx, p1_vy, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -188,14 +205,14 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player1, p1_vx, p1_vy)
-        projectile_p1.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player1)
+        projectile.setKind(SpriteKind.Projectile1)
         info.changeScoreBy(-1)
     }
 })
 controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
     if (info.player2.score() > 0 && !(player2.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p2 = sprites.createProjectileFromSprite(img`
+        createProjectile(p2_vx, p2_vy, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -212,9 +229,9 @@ controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player2, p2_vx, p2_vy)
-        projectile_p2.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player2)
         info.player2.changeScoreBy(-1)
+        projectile.setKind(SpriteKind.Projectile2)
     }
 })
 info.player4.onLifeZero(function () {
@@ -263,55 +280,9 @@ controller.player2.onButtonEvent(ControllerButton.Down, ControllerButtonEvent.Pr
     p2_vx = 0
     p2_vy = 50
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
-    if (sprite != projectile_p1) {
-        info.player1.changeLifeBy(-1)
-        sprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . 6 . . . . . . . . . . . . 
-            . . . 6 9 . . . 6 . . 9 9 9 . . 
-            . . 6 6 9 9 . 9 . . 9 9 9 9 6 . 
-            . . 6 6 9 9 . . . 9 9 9 9 6 6 . 
-            . . . 6 6 9 . . . 9 9 6 6 6 . . 
-            . . . . 6 9 . . . . . . . . . . 
-            . . 9 . 6 . . . . . . . . . . . 
-            . . . . . . . . 6 9 9 9 . . . . 
-            . . . 9 9 . . . . 9 9 9 9 9 . . 
-            . 9 9 9 9 . . . . . . 9 9 9 9 . 
-            9 9 6 6 6 . 9 9 . 6 . . 6 6 6 . 
-            9 6 6 . . . 9 9 . . 9 . . . . . 
-            . 6 . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            `)
-        sprite.setVelocity(0, 0)
-        sprites.destroy(sprite, effects.spray, 200)
-    }
-})
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player4, function (sprite, otherSprite) {
-    if (sprite != projectile_p4) {
-        info.player4.changeLifeBy(-1)
-        sprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . 6 . . . . . . . . . . . . 
-            . . . 6 9 . . . 6 . . 9 9 9 . . 
-            . . 6 6 9 9 . 9 . . 9 9 9 9 6 . 
-            . . 6 6 9 9 . . . 9 9 9 9 6 6 . 
-            . . . 6 6 9 . . . 9 9 6 6 6 . . 
-            . . . . 6 9 . . . . . . . . . . 
-            . . 9 . 6 . . . . . . . . . . . 
-            . . . . . . . . 6 9 9 9 . . . . 
-            . . . 9 9 . . . . 9 9 9 9 9 . . 
-            . 9 9 9 9 . . . . . . 9 9 9 9 . 
-            9 9 6 6 6 . 9 9 . 6 . . 6 6 6 . 
-            9 6 6 . . . 9 9 . . 9 . . . . . 
-            . 6 . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            `)
-        sprite.setVelocity(0, 0)
-        sprites.destroy(sprite, effects.spray, 200)
-    }
+sprites.onOverlap(SpriteKind.Projectile1, SpriteKind.Projectile2, function (sprite, otherSprite) {
+    popBalloon(sprite)
+    popBalloon(otherSprite)
 })
 controller.player4.onButtonEvent(ControllerButton.Down, ControllerButtonEvent.Pressed, function () {
     player_4.setImage(img`
@@ -357,6 +328,10 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     p1_vx = -50
     p1_vy = 0
 })
+sprites.onOverlap(SpriteKind.Projectile2, SpriteKind.Projectile4, function (sprite, otherSprite) {
+    popBalloon(sprite)
+    popBalloon(otherSprite)
+})
 controller.player3.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
     player_3.setImage(img`
         . f f f . f f f f f . . . . 
@@ -379,45 +354,21 @@ controller.player3.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.P
     p3_vx = 50
     p3_vy = 0
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Projectile, function (sprite, otherSprite) {
-    sprite.setImage(img`
-        . . . . . . . . . . . . . . . . 
-        . . . 6 . . . . . . . . . . . . 
-        . . . 6 9 . . . 6 . . 9 9 9 . . 
-        . . 6 6 9 9 . 9 . . 9 9 9 9 6 . 
-        . . 6 6 9 9 . . . 9 9 9 9 6 6 . 
-        . . . 6 6 9 . . . 9 9 6 6 6 . . 
-        . . . . 6 9 . . . . . . . . . . 
-        . . 9 . 6 . . . . . . . . . . . 
-        . . . . . . . . 6 9 9 9 . . . . 
-        . . . 9 9 . . . . 9 9 9 9 9 . . 
-        . 9 9 9 9 . . . . . . 9 9 9 9 . 
-        9 9 6 6 6 . 9 9 . 6 . . 6 6 6 . 
-        9 6 6 . . . 9 9 . . 9 . . . . . 
-        . 6 . . . . 9 6 . . . . . . . . 
-        . . . . . . 9 6 . . . . . . . . 
-        . . . . . . 9 6 . . . . . . . . 
-        `)
-    otherSprite.setImage(img`
-        . . . . . . . . . . . . . . . . 
-        . . . 6 . . . . . . . . . . . . 
-        . . . 6 9 . . . 6 . . 9 9 9 . . 
-        . . 6 6 9 9 . 9 . . 9 9 9 9 6 . 
-        . . 6 6 9 9 . . . 9 9 9 9 6 6 . 
-        . . . 6 6 9 . . . 9 9 6 6 6 . . 
-        . . . . 6 9 . . . . . . . . . . 
-        . . 9 . 6 . . . . . . . . . . . 
-        . . . . . . . . 6 9 9 9 . . . . 
-        . . . 9 9 . . . . 9 9 9 9 9 . . 
-        . 9 9 9 9 . . . . . . 9 9 9 9 . 
-        9 9 6 6 6 . 9 9 . 6 . . 6 6 6 . 
-        9 6 6 . . . 9 9 . . 9 . . . . . 
-        . 6 . . . . 9 6 . . . . . . . . 
-        . . . . . . 9 6 . . . . . . . . 
-        . . . . . . 9 6 . . . . . . . . 
-        `)
-    sprites.destroy(otherSprite, effects.spray, 200)
-    sprites.destroy(sprite, effects.spray, 200)
+sprites.onOverlap(SpriteKind.Projectile1, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite == player2) {
+        info.player2.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player_3) {
+        info.player3.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player_4) {
+        info.player4.changeLifeBy(-1)
+        popBalloon(sprite)
+    }
+})
+sprites.onOverlap(SpriteKind.Projectile1, SpriteKind.Projectile4, function (sprite, otherSprite) {
+    popBalloon(sprite)
+    popBalloon(otherSprite)
 })
 controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
     player2.setImage(img`
@@ -509,29 +460,16 @@ info.player3.onLifeZero(function () {
     info.player3.setScore(0)
     number_of_players_out += 1
 })
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player3, function (sprite, otherSprite) {
-    if (sprite != projectile_p3) {
+sprites.onOverlap(SpriteKind.Projectile4, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite == player1) {
+        info.player1.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player2) {
+        info.player2.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player_3) {
         info.player3.changeLifeBy(-1)
-        sprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . 6 . . . . . . . . . . . . 
-            . . . 6 9 . . . 6 . . 9 9 9 . . 
-            . . 6 6 9 9 . 9 . . 9 9 9 9 6 . 
-            . . 6 6 9 9 . . . 9 9 9 9 6 6 . 
-            . . . 6 6 9 . . . 9 9 6 6 6 . . 
-            . . . . 6 9 . . . . . . . . . . 
-            . . 9 . 6 . . . . . . . . . . . 
-            . . . . . . . . 6 9 9 9 . . . . 
-            . . . 9 9 . . . . 9 9 9 9 9 . . 
-            . 9 9 9 9 . . . . . . 9 9 9 9 . 
-            9 9 6 6 6 . 9 9 . 6 . . 6 6 6 . 
-            9 6 6 . . . 9 9 . . 9 . . . . . 
-            . 6 . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            . . . . . . 9 6 . . . . . . . . 
-            `)
-        sprite.setVelocity(0, 0)
-        sprites.destroy(sprite, effects.spray, 200)
+        popBalloon(sprite)
     }
 })
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -558,25 +496,25 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.player4.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
     if (info.player4.score() > 0 && !(player_4.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p4 = sprites.createProjectileFromSprite(img`
+        createProjectile(p4_vx, p4_vy, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . 7 7 7 7 7 . . . . . . 
-            . . . . 7 7 7 7 7 7 7 . . . . . 
-            . . . . 7 7 7 7 7 7 7 . . . . . 
-            . . . . 7 7 7 7 7 7 7 . . . . . 
-            . . . . 7 7 7 7 7 7 7 . . . . . 
-            . . . . 7 7 7 7 7 7 7 . . . . . 
-            . . . . . 7 7 7 7 7 . . . . . . 
+            . . . . . 6 6 6 6 6 . . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . 6 6 6 6 6 6 6 . . . . . 
+            . . . . . 6 6 6 6 6 . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player_4, p4_vx, p4_vy)
-        projectile_p4.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player_4)
+        projectile.setKind(SpriteKind.Projectile4)
         info.player4.changeScoreBy(-1)
     }
 })
@@ -648,6 +586,18 @@ controller.player3.onButtonEvent(ControllerButton.Down, ControllerButtonEvent.Pr
     p3_vx = 0
     p3_vy = 50
 })
+sprites.onOverlap(SpriteKind.Projectile3, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite == player1) {
+        info.player1.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player2) {
+        info.player2.changeLifeBy(-1)
+        popBalloon(sprite)
+    } else if (otherSprite == player_4) {
+        info.player4.changeLifeBy(-1)
+        popBalloon(sprite)
+    }
+})
 controller.player4.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pressed, function () {
     player_4.setImage(img`
         . . . . . f f f f f . . . 
@@ -672,7 +622,7 @@ controller.player4.onButtonEvent(ControllerButton.Left, ControllerButtonEvent.Pr
 })
 controller.player3.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function () {
     if (info.player3.score() > 0 && !(player_3.tileKindAt(TileDirection.Center, sprites.dungeon.collectibleInsignia))) {
-        projectile_p3 = sprites.createProjectileFromSprite(img`
+        createProjectile(p3_vx, p3_vy, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -689,8 +639,8 @@ controller.player3.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            `, player_3, p3_vx, p3_vy)
-        projectile_p3.setFlag(SpriteFlag.AutoDestroy, true)
+            `, player_3)
+        projectile.setKind(SpriteKind.Projectile3)
         info.player3.changeScoreBy(-1)
     }
 })
@@ -717,6 +667,14 @@ info.player2.onLifeZero(function () {
     sprites.destroy(player2, effects.spray, 500)
     info.player2.setScore(0)
     number_of_players_out += 1
+})
+sprites.onOverlap(SpriteKind.Projectile3, SpriteKind.Projectile4, function (sprite, otherSprite) {
+    popBalloon(sprite)
+    popBalloon(otherSprite)
+})
+sprites.onOverlap(SpriteKind.Projectile1, SpriteKind.Projectile3, function (sprite, otherSprite) {
+    popBalloon(sprite)
+    popBalloon(otherSprite)
 })
 controller.player4.onButtonEvent(ControllerButton.Right, ControllerButtonEvent.Pressed, function () {
     player_4.setImage(img`
@@ -788,14 +746,11 @@ let p3_vy = 0
 let p3_vx = 0
 let p2_vy = 0
 let p2_vx = 0
-let projectile_p1: Sprite = null
-let projectile_p4: Sprite = null
-let projectile_p2: Sprite = null
-let projectile_p3: Sprite = null
 let p1_vy = 0
 let p1_vx = 0
 let p4_vy = 0
 let p4_vx = 0
+let projectile: Sprite = null
 let player_4: Sprite = null
 let player_3: Sprite = null
 let player2: Sprite = null
@@ -835,7 +790,7 @@ player2 = sprites.create(img`
     . . e f b d b d b d b b f e . . 
     . . . f f 1 d 1 d 1 d f f . . . 
     . . . . . f f b b f f . . . . . 
-    `, SpriteKind.Player2)
+    `, SpriteKind.Player)
 player_3 = sprites.create(img`
     . f f f . f f f f . f f f . 
     f f f f f c c c c f f f f f 
@@ -853,7 +808,7 @@ player_3 = sprites.create(img`
     . 4 4 f 6 6 6 6 6 6 f 4 4 . 
     . . . . f f f f f f . . . . 
     . . . . f f . . f f . . . . 
-    `, SpriteKind.Player3)
+    `, SpriteKind.Player)
 player_4 = sprites.create(img`
     . . . . f f f f . . . . . 
     . . f f f f f f f f . . . 
@@ -871,7 +826,7 @@ player_4 = sprites.create(img`
     e e f 6 6 6 6 6 6 f e e . 
     . . . f f f f f f . . . . 
     . . . f f . . f f . . . . 
-    `, SpriteKind.Player4)
+    `, SpriteKind.Player)
 player1.setPosition(42, 59)
 player2.setPosition(113, 59)
 player_3.setPosition(84, 25)
